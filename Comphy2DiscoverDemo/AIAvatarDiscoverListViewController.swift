@@ -156,10 +156,36 @@ extension AIAvatarDiscoverListViewController: UICollectionViewDataSource, UIColl
                                 displayer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                                 
                                 displayer.textView.text = jsonString
-                                displayer.didPressCopy = {
-                                    let alert = UIAlertController(title: "Copied", message: "Text copied to clipboard.", preferredStyle: .alert)
-                                    alert.addAction(UIAlertAction(title: "OK", style: .default))
-                                    self.present(alert, animated: true)
+                                displayer.didPressCopy = { [weak self] in
+                                    guard let self else { return }
+                                    // Convert string to Data
+                                    guard let jsonData = jsonString.data(using: .utf8) else { return }
+                                    
+                                    // Create a temporary file URL
+                                    if let name = discoverModels[indexPath.row].discoverName {
+                                        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(name).json")
+                                        
+                                        do {
+                                            // Write JSON data to the file
+                                            try jsonData.write(to: tempURL)
+                                            
+                                            // Create a UIActivityViewController for sharing
+                                            let activityVC = UIActivityViewController(activityItems: [tempURL], applicationActivities: nil)
+                                            // Optional: for iPad support
+                                            if let popover = activityVC.popoverPresentationController {
+                                                popover.sourceView = self.view
+                                                popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                                                popover.permittedArrowDirections = []
+                                            }
+                                            self.present(activityVC, animated: true)
+                                        } catch {
+                                            print("Failed to write JSON file: \(error)")
+                                            showAlert(title: "Failed to write JSON file", message: error.localizedDescription)
+                                           
+                                        }
+                                    } else {
+                                        showAlert(title: "Nil Found", message: "Discover name found nil")
+                                    }
                                 }
                                 self.view.addSubview(displayer)
                             }
