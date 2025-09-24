@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="AIAvatarDiscoverCategoryCell" id="gTV-IL-0wX" customClass="AIAvatarDiscoverCategoryCell" customModule="NoCrop" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="90" height="30"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="90" height="30"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6s8-KT-cbE" userLabel="ContentView">
+                        <rect key="frame" x="0.0" y="0.0" width="90" height="30"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S6p-PP-vJe">
+                                <rect key="frame" x="12" y="6.3333333333333339" width="66" height="17.666666666666664"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Label">
+                                        <attributes>
+                                            <color key="NSColor" red="0.47843137254901957" green="0.49411764705882355" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="Outfit-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndr-et-Qc6">
+                                <rect key="frame" x="0.6666666666666643" y="0.66666666666666607" width="88.666666666666686" height="28.666666666666671"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="S6p-PP-vJe" firstAttribute="centerY" secondItem="6s8-KT-cbE" secondAttribute="centerY" id="3v9-Jx-hFu"/>
+                            <constraint firstItem="ndr-et-Qc6" firstAttribute="top" secondItem="6s8-KT-cbE" secondAttribute="top" constant="0.69999999999999996" id="Efk-eH-B6t"/>
+                            <constraint firstAttribute="bottom" secondItem="ndr-et-Qc6" secondAttribute="bottom" constant="0.69999999999999996" id="K9x-fy-ubQ"/>
+                            <constraint firstAttribute="trailing" secondItem="S6p-PP-vJe" secondAttribute="trailing" constant="12" id="Ual-68-pV7"/>
+                            <constraint firstAttribute="trailing" secondItem="ndr-et-Qc6" secondAttribute="trailing" constant="0.69999999999999996" id="an2-iD-tCU"/>
+                            <constraint firstItem="ndr-et-Qc6" firstAttribute="leading" secondItem="6s8-KT-cbE" secondAttribute="leading" constant="0.69999999999999996" id="bot-PR-L2H"/>
+                            <constraint firstItem="S6p-PP-vJe" firstAttribute="leading" secondItem="6s8-KT-cbE" secondAttribute="leading" constant="12" id="igV-JB-ZFa"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="leading" secondItem="6s8-KT-cbE" secondAttribute="leading" id="LRZ-Zv-OoG"/>
+                <constraint firstItem="6s8-KT-cbE" firstAttribute="trailing" secondItem="gTV-IL-0wX" secondAttribute="trailing" id="MIw-Hv-JEt"/>
+                <constraint firstAttribute="top" secondItem="6s8-KT-cbE" secondAttribute="top" id="Sp4-qm-eG5"/>
+                <constraint firstItem="6s8-KT-cbE" firstAttribute="bottom" secondItem="gTV-IL-0wX" secondAttribute="bottom" id="cQh-pY-WGa"/>
+            </constraints>
+            <connections>
+                <outlet property="categoryLabel" destination="S6p-PP-vJe" id="zGh-GU-gA8"/>
+                <outlet property="dummyViewForInsideBorder" destination="ndr-et-Qc6" id="sUf-PL-fY0"/>
+            </connections>
+            <point key="canvasLocation" x="13" y="21"/>
+        </collectionViewCell>
+    </objects>
+</document>
