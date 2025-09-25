@@ -46,7 +46,7 @@ class Comphy2APIEnvironment: NSObject {
     static let base_AllData_URLString = "http://comphy2-api.interlinkapi.com/api/mobile"
     static let base_AllData_ApiKey = "dhfofh4564rfdl@fef@iK343G"
     // ML
-    static let base_ML_URLString = "http://103.196.86.90:19252"
+    static let base_ML_URLString = "http://103.196.86.56:15063"
     static let ml_Authorization = "kepHq8UbyuU82f4ILIVYDneJp6Fm3mQI"
     #else
     static let environment = "PRODUCTION Comphy2 Api Environment"
@@ -54,8 +54,8 @@ class Comphy2APIEnvironment: NSObject {
     static let base_AllData_URLString = "http://comphy2-api.interlinkapi.com/api/mobile"
     static let base_AllData_ApiKey = "dhfofh4564rfdl@fef@iK343G"
     // ML
-    static let base_ML_URLString = ""
-    static let ml_Authorization = ""
+    static let base_ML_URLString = "http://103.196.86.56:15063"
+    static let ml_Authorization = "kepHq8UbyuU82f4ILIVYDneJp6Fm3mQI"
     #endif
 }
 
@@ -151,13 +151,15 @@ extension UIViewController {
                    message: String,
                    buttonTitle: String = "Dismiss") {
         
+       
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
-        
-        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func showLoader(withMessage: String? = nil) {

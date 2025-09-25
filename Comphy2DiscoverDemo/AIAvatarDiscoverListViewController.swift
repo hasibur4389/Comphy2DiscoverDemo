@@ -7,6 +7,7 @@
 
 import UIKit
 import SVProgressHUD
+import ZipArchive
 
 class AIAvatarDiscoverListViewController: UIViewController {
     
@@ -75,12 +76,142 @@ class AIAvatarDiscoverListViewController: UIViewController {
     }
     
 
+    // MARK: - Save Image to Photos
+    func saveImageToPhotos(_ image: UIImage, completion: ((Bool, Error?) -> Void)? = nil) {
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        completion?(true, nil)
+    }
+    
+    // MARK: - Share Image
+    func shareImage(_ image: UIImage) {
+        let activityVC = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+       
+        DispatchQueue.main.async { [weak self] in
+            activityVC.popoverPresentationController?.sourceView = self?.view // for iPad support
+            self?.present(activityVC, animated: true)
+        }
+        
+    }
+
+
     
     func registerCell() {
         discoverListCollectionView.register(UINib(nibName: AIAvatarDiscoverListCell.identifier, bundle: nil), forCellWithReuseIdentifier: AIAvatarDiscoverListCell.identifier)
         
         dicoverCategoryCollectionView.register(UINib(nibName: AIAvatarDiscoverCategoryCell.identifier, bundle: nil), forCellWithReuseIdentifier: AIAvatarDiscoverCategoryCell.identifier)
     }
+    
+    func handleSaveAndCopy(jsonString: String, discoverName: String?) {
+        // Convert string to Data
+        guard let jsonData = jsonString.data(using: .utf8) else { return }
+        
+        // Create a temporary file URL
+        if let name = discoverName {
+            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(name).json")
+            
+            do {
+                // Write JSON data to the file
+                try jsonData.write(to: tempURL)
+                
+                // Create a UIActivityViewController for sharing
+                let activityVC = UIActivityViewController(activityItems: [tempURL], applicationActivities: nil)
+                // Optional: for iPad support
+                if let popover = activityVC.popoverPresentationController {
+                    popover.sourceView = self.view
+                    popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                    popover.permittedArrowDirections = []
+                }
+                self.present(activityVC, animated: true)
+            } catch {
+                print("Failed to write JSON file: \(error)")
+                showAlert(title: "Failed to write JSON file", message: error.localizedDescription)
+               
+            }
+        } else {
+            showAlert(title: "Nil Found", message: "Discover name found nil")
+        }
+    }
+    
+    func handleGenerate(jsonString: String, discoverName: String?){
+        guard let jsonData = jsonString.data(using: .utf8) else { return }
+        
+        if let name = discoverName {
+            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(name).json")
+            
+                do {
+                    try jsonData.write(to: tempURL)
+                    SVProgressHUD.setDefaultMaskType(.black)
+                    showLoader(withMessage: "Generating...")
+                    Comphy2ApiRequest().generateComphy2(jsonURL: tempURL){ [weak self] zipURL, error in
+                        guard let self else { return }
+                        hideLoader()
+                        if let error {
+                            showAlert(title: "Error!", message: error.localizedDescription)
+                        } else if let zipURL {
+                            
+                            let fileManager = FileManager.default
+                            guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+                                print("❌ Could not find documents directory")
+                                return
+                            }
+                            
+                            let rootFolderURL = documentsURL.appendingPathComponent("Comphy2DemoDiscovers")
+                            let nameFolderURL = rootFolderURL.appendingPathComponent("\(name)_\(UUID().uuidString)")
+                            
+                            let success = SSZipArchive.unzipFile(atPath: zipURL.path, toDestination: nameFolderURL.path)
+                            if success {
+                                if let outputImageView = Bundle.main.loadNibNamed("OutputImageView", owner: nil, options: nil)?.first as? OutputImageView {
+                                    outputImageView.frame = self.view.frame
+                                    outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                                    
+                                    let image = UIImage(contentsOfFile: nameFolderURL.path)
+                                    outputImageView.image = image
+                                    
+                                    outputImageView.didPressSave = { [weak self] in
+                                        guard let self else { return }
+                                        if let image = outputImageView.image {
+                                            self.saveImageToPhotos(image) { success, error in
+                                                if success {
+                                                    self.showAlert(title: "Success!", message: "Image Saved")
+                                                } else {
+                                                    self.showAlert(title: "Failed!", message: "Image couldnt be saved")
+                                                    print("❌ Failed to save image: \(String(describing: error))")
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                    
+                                    outputImageView.didPressShareImage = { [weak self] in
+                                        guard let self else { return }
+                                        if let image = outputImageView.image {
+                                            self.shareImage(image)
+                                        }
+                                    }
+                                    
+                                    DispatchQueue.main.async {[weak self] in
+                                        guard let self else { return }
+                                        self.view.addSubview(outputImageView)
+                                    }
+                                   
+                                }
+                                    
+                            } else {
+                                showAlert(title: "Error!", message: "Unzipping file failed")
+                            }
+                        }
+                    }
+
+
+                } catch {
+                    print("Failed to write JSON file: \(error)")
+                    showAlert(title: "Failed to write JSON file", message: error.localizedDescription)
+                }
+            } else {
+            showAlert(title: "Nil Found", message: "Discover name found nil")
+        }
+    }
+
     
 }
 
@@ -140,7 +271,7 @@ extension AIAvatarDiscoverListViewController: UICollectionViewDataSource, UIColl
                     guard let self else { return }
                     hideLoader()
                     if let jsonString {
-                        DispatchQueue.main.async {[weak self] in
+                        DispatchQueue.main.async { [weak self] in
                             guard let self else { return }
                             if let displayer = Bundle.main.loadNibNamed("JSONDisplayer", owner: nil, options: nil)?.first as? JSONDisplayer {
                                 let safeInsets = self.view.safeAreaInsets
@@ -156,37 +287,19 @@ extension AIAvatarDiscoverListViewController: UICollectionViewDataSource, UIColl
                                 displayer.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                                 
                                 displayer.textView.text = jsonString
+                            
+                                displayer.didPressGenerate = {
+                                    [weak self] in
+                                    guard let self else { return }
+                                    handleGenerate(jsonString: jsonString, discoverName: discoverModels[indexPath.row].discoverName)
+                                }
+                                
                                 displayer.didPressCopy = { [weak self] in
                                     guard let self else { return }
-                                    // Convert string to Data
-                                    guard let jsonData = jsonString.data(using: .utf8) else { return }
+                                    handleSaveAndCopy(jsonString: jsonString, discoverName: discoverModels[indexPath.row].discoverName)
                                     
-                                    // Create a temporary file URL
-                                    if let name = discoverModels[indexPath.row].discoverName {
-                                        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(name).json")
-                                        
-                                        do {
-                                            // Write JSON data to the file
-                                            try jsonData.write(to: tempURL)
-                                            
-                                            // Create a UIActivityViewController for sharing
-                                            let activityVC = UIActivityViewController(activityItems: [tempURL], applicationActivities: nil)
-                                            // Optional: for iPad support
-                                            if let popover = activityVC.popoverPresentationController {
-                                                popover.sourceView = self.view
-                                                popover.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-                                                popover.permittedArrowDirections = []
-                                            }
-                                            self.present(activityVC, animated: true)
-                                        } catch {
-                                            print("Failed to write JSON file: \(error)")
-                                            showAlert(title: "Failed to write JSON file", message: error.localizedDescription)
-                                           
-                                        }
-                                    } else {
-                                        showAlert(title: "Nil Found", message: "Discover name found nil")
-                                    }
                                 }
+                                
                                 self.view.addSubview(displayer)
                             }
                         }

@@ -12,9 +12,14 @@ class JSONDisplayer: UIView {
     @IBOutlet weak var textView: UITextView!
     
     var didPressCopy: (() -> Void)?
+    var didPressGenerate:(() -> Void)?
+    var didRemove:(() -> Void)?
+    
+//    var jsonString: String = ""
     
     override func awakeFromNib() {
-        
+        super.awakeFromNib()
+//        textView.text = jsonString
     }
     
     
@@ -22,6 +27,11 @@ class JSONDisplayer: UIView {
         UIPasteboard.general.string = textView.text
         didPressCopy?()
        
+    }
+    
+    
+    @IBAction func generateButtonPressed(_ sender: UIButton) {
+        didPressGenerate?()
     }
     
     

@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B31198E32E85482600B44F6D /* OutputImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B31198E22E85482600B44F6D /* OutputImageView.xib */; };
+		B31198E52E854C7500B44F6D /* OutputImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31198E42E854C7500B44F6D /* OutputImageView.swift */; };
 		B3AA562D2E83B3690088D92E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA56232E83B3690088D92E /* AppDelegate.swift */; };
 		B3AA562E2E83B3690088D92E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA562A2E83B3690088D92E /* SceneDelegate.swift */; };
 		B3AA562F2E83B3690088D92E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA562B2E83B3690088D92E /* ViewController.swift */; };
@@ -19,19 +21,25 @@
 		B3AA563D2E83B4A80088D92E /* Comph1v2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA563C2E83B4A50088D92E /* Comph1v2Model.swift */; };
 		B3AA563F2E83B6050088D92E /* Comphy2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA563E2E83B5FF0088D92E /* Comphy2Model.swift */; };
 		B3AA56412E83B6600088D92E /* ApiRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA56402E83B65B0088D92E /* ApiRequestModel.swift */; };
-		B3AA56442E83B9520088D92E /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = B3AA56432E83B9520088D92E /* SVProgressHUD */; };
 		B3AA56462E83BBD20088D92E /* AIAvatarDiscoverListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA56452E83BBD20088D92E /* AIAvatarDiscoverListViewController.swift */; };
 		B3AA564E2E83BD6E0088D92E /* AIAvatarDiscoverListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA56472E83BD6E0088D92E /* AIAvatarDiscoverListCell.swift */; };
 		B3AA564F2E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA564A2E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.swift */; };
 		B3AA56502E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3AA564B2E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.xib */; };
 		B3AA56512E83BD6E0088D92E /* AIAvatarDiscoverListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3AA56482E83BD6E0088D92E /* AIAvatarDiscoverListCell.xib */; };
-		B3AA56542E83C0890088D92E /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = B3AA56532E83C0890088D92E /* SDWebImage */; };
-		B3AA56562E83C0890088D92E /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B3AA56552E83C0890088D92E /* SDWebImageMapKit */; };
 		B3AA56592E83E86C0088D92E /* JSONDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AA56582E83E86C0088D92E /* JSONDisplayer.swift */; };
 		B3AA565B2E83E87A0088D92E /* JSONDisplayer.xib in Resources */ = {isa = PBXBuildFile; fileRef = B3AA565A2E83E87A0088D92E /* JSONDisplayer.xib */; };
+		B3D3D9682E856D78005BE253 /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D9672E856D78005BE253 /* SVProgressHUD */; };
+		B3D3D96B2E856D8B005BE253 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D96A2E856D8B005BE253 /* ZipArchive */; };
+		B3D3D96F2E856F43005BE253 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D96E2E856F43005BE253 /* SDWebImage */; };
+		B3D3D9712E856F43005BE253 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D9702E856F43005BE253 /* SDWebImageMapKit */; };
+		BEA815448F076861EF3B4CA7 /* Pods_Comphy2DiscoverDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB1D169E75FBDBF7E1E0CFB /* Pods_Comphy2DiscoverDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B6CA9374879156B5FE2C816 /* Pods-Comphy2DiscoverDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Comphy2DiscoverDemo.debug.xcconfig"; path = "Target Support Files/Pods-Comphy2DiscoverDemo/Pods-Comphy2DiscoverDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		5DB1D169E75FBDBF7E1E0CFB /* Pods_Comphy2DiscoverDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Comphy2DiscoverDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B31198E22E85482600B44F6D /* OutputImageView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OutputImageView.xib; sourceTree = "<group>"; };
+		B31198E42E854C7500B44F6D /* OutputImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputImageView.swift; sourceTree = "<group>"; };
 		B3AA560B2E83B1870088D92E /* Comphy2DiscoverDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Comphy2DiscoverDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3AA56232E83B3690088D92E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3AA56242E83B3690088D92E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,6 +61,7 @@
 		B3AA564B2E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIAvatarDiscoverCategoryCell.xib; sourceTree = "<group>"; };
 		B3AA56582E83E86C0088D92E /* JSONDisplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDisplayer.swift; sourceTree = "<group>"; };
 		B3AA565A2E83E87A0088D92E /* JSONDisplayer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JSONDisplayer.xib; sourceTree = "<group>"; };
+		F6D69D56CDD1A7ED00A16EE2 /* Pods-Comphy2DiscoverDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Comphy2DiscoverDemo.release.xcconfig"; path = "Target Support Files/Pods-Comphy2DiscoverDemo/Pods-Comphy2DiscoverDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,20 +69,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3AA56542E83C0890088D92E /* SDWebImage in Frameworks */,
-				B3AA56562E83C0890088D92E /* SDWebImageMapKit in Frameworks */,
-				B3AA56442E83B9520088D92E /* SVProgressHUD in Frameworks */,
+				B3D3D9682E856D78005BE253 /* SVProgressHUD in Frameworks */,
+				B3D3D9712E856F43005BE253 /* SDWebImageMapKit in Frameworks */,
+				BEA815448F076861EF3B4CA7 /* Pods_Comphy2DiscoverDemo.framework in Frameworks */,
+				B3D3D96F2E856F43005BE253 /* SDWebImage in Frameworks */,
+				B3D3D96B2E856D8B005BE253 /* ZipArchive in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3BAC7452C88E0665EAB87635 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1B6CA9374879156B5FE2C816 /* Pods-Comphy2DiscoverDemo.debug.xcconfig */,
+				F6D69D56CDD1A7ED00A16EE2 /* Pods-Comphy2DiscoverDemo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		B3AA56022E83B1870088D92E = {
 			isa = PBXGroup;
 			children = (
 				B3AA562C2E83B3690088D92E /* Comphy2DiscoverDemo */,
 				B3AA560C2E83B1870088D92E /* Products */,
+				3BAC7452C88E0665EAB87635 /* Pods */,
+				FA7E87A807CBE1EE02B43678 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,8 +178,18 @@
 			children = (
 				B3AA56582E83E86C0088D92E /* JSONDisplayer.swift */,
 				B3AA565A2E83E87A0088D92E /* JSONDisplayer.xib */,
+				B31198E22E85482600B44F6D /* OutputImageView.xib */,
+				B31198E42E854C7500B44F6D /* OutputImageView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		FA7E87A807CBE1EE02B43678 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5DB1D169E75FBDBF7E1E0CFB /* Pods_Comphy2DiscoverDemo.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,6 +199,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B3AA561E2E83B18A0088D92E /* Build configuration list for PBXNativeTarget "Comphy2DiscoverDemo" */;
 			buildPhases = (
+				31BDFD1B6DF4391B0CC33210 /* [CP] Check Pods Manifest.lock */,
 				B3AA56072E83B1870088D92E /* Sources */,
 				B3AA56082E83B1870088D92E /* Frameworks */,
 				B3AA56092E83B1870088D92E /* Resources */,
@@ -177,9 +210,10 @@
 			);
 			name = Comphy2DiscoverDemo;
 			packageProductDependencies = (
-				B3AA56432E83B9520088D92E /* SVProgressHUD */,
-				B3AA56532E83C0890088D92E /* SDWebImage */,
-				B3AA56552E83C0890088D92E /* SDWebImageMapKit */,
+				B3D3D9672E856D78005BE253 /* SVProgressHUD */,
+				B3D3D96A2E856D8B005BE253 /* ZipArchive */,
+				B3D3D96E2E856F43005BE253 /* SDWebImage */,
+				B3D3D9702E856F43005BE253 /* SDWebImageMapKit */,
 			);
 			productName = Comphy2DiscoverDemo;
 			productReference = B3AA560B2E83B1870088D92E /* Comphy2DiscoverDemo.app */;
@@ -201,6 +235,7 @@
 				};
 			};
 			buildConfigurationList = B3AA56062E83B1870088D92E /* Build configuration list for PBXProject "Comphy2DiscoverDemo" */;
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -210,10 +245,10 @@
 			mainGroup = B3AA56022E83B1870088D92E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B3AA56422E83B9520088D92E /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
-				B3AA56522E83C0890088D92E /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				B3D3D9662E856D78005BE253 /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
+				B3D3D9692E856D8B005BE253 /* XCRemoteSwiftPackageReference "ZipArchive" */,
+				B3D3D96D2E856F43005BE253 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
-			preferredProjectObjectVersion = 77;
 			productRefGroup = B3AA560C2E83B1870088D92E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,11 +268,37 @@
 				B3AA56332E83B3690088D92E /* Main.storyboard in Resources */,
 				B3AA565B2E83E87A0088D92E /* JSONDisplayer.xib in Resources */,
 				B3AA56502E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.xib in Resources */,
+				B31198E32E85482600B44F6D /* OutputImageView.xib in Resources */,
 				B3AA56512E83BD6E0088D92E /* AIAvatarDiscoverListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31BDFD1B6DF4391B0CC33210 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Comphy2DiscoverDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B3AA56072E83B1870088D92E /* Sources */ = {
@@ -257,6 +318,7 @@
 				B3AA56382E83B3740088D92E /* Comphy2ApiRequest.swift in Sources */,
 				B3AA564E2E83BD6E0088D92E /* AIAvatarDiscoverListCell.swift in Sources */,
 				B3AA564F2E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.swift in Sources */,
+				B31198E52E854C7500B44F6D /* OutputImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,12 +346,13 @@
 /* Begin XCBuildConfiguration section */
 		B3AA561F2E83B18A0088D92E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B6CA9374879156B5FE2C816 /* Pods-Comphy2DiscoverDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CQU86VNAPJ;
+				DEVELOPMENT_TEAM = QA5HCG2XW6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Comphy2DiscoverDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -303,7 +366,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hasib.Comphy2DiscoverDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.debotoshdey.Comphy2DiscoverDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -313,12 +376,13 @@
 		};
 		B3AA56202E83B18A0088D92E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6D69D56CDD1A7ED00A16EE2 /* Pods-Comphy2DiscoverDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CQU86VNAPJ;
+				DEVELOPMENT_TEAM = QA5HCG2XW6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Comphy2DiscoverDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -332,7 +396,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hasib.Comphy2DiscoverDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.debotoshdey.Comphy2DiscoverDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -483,7 +547,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B3AA56422E83B9520088D92E /* XCRemoteSwiftPackageReference "SVProgressHUD" */ = {
+		B3D3D9662E856D78005BE253 /* XCRemoteSwiftPackageReference "SVProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SVProgressHUD/SVProgressHUD.git";
 			requirement = {
@@ -491,7 +555,15 @@
 				minimumVersion = 2.3.1;
 			};
 		};
-		B3AA56522E83C0890088D92E /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+		B3D3D9692E856D8B005BE253 /* XCRemoteSwiftPackageReference "ZipArchive" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZipArchive/ZipArchive.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
+		B3D3D96D2E856F43005BE253 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
 			requirement = {
@@ -502,19 +574,24 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B3AA56432E83B9520088D92E /* SVProgressHUD */ = {
+		B3D3D9672E856D78005BE253 /* SVProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B3AA56422E83B9520088D92E /* XCRemoteSwiftPackageReference "SVProgressHUD" */;
+			package = B3D3D9662E856D78005BE253 /* XCRemoteSwiftPackageReference "SVProgressHUD" */;
 			productName = SVProgressHUD;
 		};
-		B3AA56532E83C0890088D92E /* SDWebImage */ = {
+		B3D3D96A2E856D8B005BE253 /* ZipArchive */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B3AA56522E83C0890088D92E /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			package = B3D3D9692E856D8B005BE253 /* XCRemoteSwiftPackageReference "ZipArchive" */;
+			productName = ZipArchive;
+		};
+		B3D3D96E2E856F43005BE253 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3D3D96D2E856F43005BE253 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
 		};
-		B3AA56552E83C0890088D92E /* SDWebImageMapKit */ = {
+		B3D3D9702E856F43005BE253 /* SDWebImageMapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B3AA56522E83C0890088D92E /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			package = B3D3D96D2E856F43005BE253 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

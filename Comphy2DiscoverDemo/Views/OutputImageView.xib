@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="bHc-Ip-2eH" customClass="OutputImageView" customModule="Comphy2DiscoverDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMa-qf-wC9">
+                    <rect key="frame" x="10" y="69" width="30" height="30"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="prompt_upload_close"/>
+                    <connections>
+                        <action selector="exitViewPressed:" destination="bHc-Ip-2eH" eventType="touchUpInside" id="BBc-TM-mmH"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V9S-FK-ZPB">
+                    <rect key="frame" x="16" y="129" width="361" height="414"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="414" id="g28-H4-y0J"/>
+                    </constraints>
+                </imageView>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="d9E-AH-nhs">
+                    <rect key="frame" x="16" y="573" width="361" height="52"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Evf-eh-HN9">
+                            <rect key="frame" x="0.0" y="0.0" width="170.66666666666666" height="52"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Save Image" backgroundImage="try_now_bg"/>
+                            <connections>
+                                <action selector="saveImagePressed:" destination="bHc-Ip-2eH" eventType="touchUpInside" id="m6J-Tr-7nz"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ohg-3c-GKt">
+                            <rect key="frame" x="190.66666666666663" y="0.0" width="170.33333333333337" height="52"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Share Image" backgroundImage="try_now_bg"/>
+                            <connections>
+                                <action selector="shareImagePressed:" destination="bHc-Ip-2eH" eventType="touchUpInside" id="fMf-Lf-HUd"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="GTn-sc-pd6"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="NMa-qf-wC9" firstAttribute="leading" secondItem="GTn-sc-pd6" secondAttribute="leading" constant="10" id="4jq-ak-GDq"/>
+                <constraint firstItem="NMa-qf-wC9" firstAttribute="top" secondItem="GTn-sc-pd6" secondAttribute="top" constant="10" id="8w0-ZX-xd1"/>
+                <constraint firstItem="V9S-FK-ZPB" firstAttribute="leading" secondItem="GTn-sc-pd6" secondAttribute="leading" constant="16" id="9uL-sI-kQw"/>
+                <constraint firstItem="d9E-AH-nhs" firstAttribute="top" secondItem="V9S-FK-ZPB" secondAttribute="bottom" constant="30" id="B8u-Il-GGh"/>
+                <constraint firstItem="V9S-FK-ZPB" firstAttribute="top" secondItem="NMa-qf-wC9" secondAttribute="bottom" constant="30" id="D8X-F8-4Yy"/>
+                <constraint firstItem="d9E-AH-nhs" firstAttribute="leading" secondItem="bHc-Ip-2eH" secondAttribute="leading" constant="16" id="M6u-Cl-RSm"/>
+                <constraint firstAttribute="trailing" secondItem="d9E-AH-nhs" secondAttribute="trailing" constant="16" id="YzX-7f-lAM"/>
+                <constraint firstItem="d9E-AH-nhs" firstAttribute="centerX" secondItem="bHc-Ip-2eH" secondAttribute="centerX" id="uPw-Ta-qtS"/>
+                <constraint firstItem="GTn-sc-pd6" firstAttribute="trailing" secondItem="V9S-FK-ZPB" secondAttribute="trailing" constant="16" id="yGl-aB-k1r"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imageView" destination="V9S-FK-ZPB" id="CYC-Rc-jsF"/>
+            </connections>
+            <point key="canvasLocation" x="-34.351145038167935" y="8.4507042253521139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="prompt_upload_close" width="30" height="30"/>
+        <image name="try_now_bg" width="222" height="52"/>
+    </resources>
+</document>

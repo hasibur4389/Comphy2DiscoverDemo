@@ -69,42 +69,95 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 44
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let aFeature = allDataComphy2?.features?[indexPath.row], let featureID = aFeature._id {
-            showLoader(withMessage: "Loading Disocover Data...")
-            Comphy2ApiRequest().getAllDiscoverAndTagsByApplicationIDAndFeatureID(featureID: featureID) { [weak self] responseModel, error in
-                guard let self else { return }
-                hideLoader()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Error!", message: error.localizedDescription)
-                    }
-                    print("error: \(error)")
-                    return
-                }
-                if let discoverListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AIAvatarDiscoverListViewController") as? AIAvatarDiscoverListViewController {
-                    guard let responseModel = responseModel else {
-                        print("tagsResponseModel is nil")
-                        return
-                    }
-                    
-                    if let tags = responseModel.tags, let discoverArr = responseModel.discoverArr {
-                        for tag in tags {
-                            tag.mapDiscoverModels(from: discoverArr)
-                        }
-                    }
-                    discoverListVC.tagsDiscoverModel = responseModel
-                    if let aFeature = allDataComphy2?.features?[indexPath.row] {
-                        discoverListVC.navTitle  = aFeature.name ?? ""
-                    }
-                    DispatchQueue.main.async {[weak self] in
-                        guard let self else { return }
-                        self.navigationController?.pushViewController(discoverListVC, animated: true)
-                    }
+    func presentDiscoverListVC(_ responseModel: TagsResponseModel?, indexPath: IndexPath) {
+        if let discoverListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AIAvatarDiscoverListViewController") as? AIAvatarDiscoverListViewController {
+            guard let responseModel = responseModel else {
+                print("tagsResponseModel is nil")
+                return
+            }
+            
+            if let tags = responseModel.tags, let discoverArr = responseModel.discoverArr {
+                for tag in tags {
+                    tag.mapDiscoverModels(from: discoverArr)
                 }
             }
+            discoverListVC.tagsDiscoverModel = responseModel
+            if let aFeature = allDataComphy2?.features?[indexPath.row] {
+                discoverListVC.navTitle  = aFeature.name ?? ""
+            }
+            DispatchQueue.main.async {[weak self] in
+                guard let self else { return }
+                self.navigationController?.pushViewController(discoverListVC, animated: true)
+            }
+        }
+    }
+    
+     func callTagsDiscoverApi(_ featureID: String, _ indexPath: IndexPath) {
+        showLoader(withMessage: "Loading Disocover Data...")
+        Comphy2ApiRequest().getAllDiscoverAndTagsByApplicationIDAndFeatureID(featureID: featureID) { [weak self] responseModel, error in
+            guard let self else { return }
+            hideLoader()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error!", message: error.localizedDescription)
+                }
+                print("error: \(error)")
+                return
+            } else {
+                presentDiscoverListVC(responseModel, indexPath: indexPath)
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let aFeature = allDataComphy2?.features?[indexPath.row], let featureID = aFeature._id {
+            //callTagsDiscoverApi(featureID, indexPath)
+            // First Alert (Yes/No)
+            let firstAlert = UIAlertController(
+                title: "Confirm",
+                message: "Get discover(s) for a specific tag?",
+                preferredStyle: .alert
+            )
+            
+            // No action
+            firstAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [weak self] _ in
+                // Do something else when user taps No
+                print("User tapped No - doing something else")
+                self?.callTagsDiscoverApi(featureID, indexPath)
+            }))
+            
+            // Yes action → show second alert with input
+            firstAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                let secondAlert = UIAlertController(
+                    title: "Input Required",
+                    message: "Enter tagName",
+                    preferredStyle: .alert
+                )
+                
+                secondAlert.addTextField { textField in
+                    textField.placeholder = "Type something..."
+                }
+                
+                secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                    print("User cancelled input")
+                }))
+                
+                secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                    let userInput = secondAlert.textFields?.first?.text ?? ""
+                    
+                    //TODO: MAKE API call using the tag name and feature id
+                }))
+                
+                self.present(secondAlert, animated: true)
+            }))
+            
+            self.present(firstAlert, animated: true)
         } else {
             print("Error: DidSelect Selected Feature information missing")
+            DispatchQueue.main.async {
+                self.showAlert(title: "Error!", message: "Selected Feature information missing")
+            }
+            
         }
     }
     

@@ -16,7 +16,7 @@ class Comphy2ApiRequest: NSObject {
     var mlBaseUrl = Comphy2APIEnvironment.base_ML_URLString
     var mlAuthorization = Comphy2APIEnvironment.ml_Authorization
     var task: URLSessionDataTask?
-   // var uploadRequest: UploadRequest?
+    //var uploadRequest: UploadRequest?
     
     public func configureURLRequest(
             urlString: String,
@@ -376,6 +376,116 @@ class Comphy2ApiRequest: NSObject {
             }
         }.resume()
     }
+//    
+//    func generateComphy2(jsonURL: URL,
+//                         statusCallback: ((NCAiImageUploadStatuss) -> Void)?,
+//                         completion: @escaping (URL?, Error?) -> Void) {
+//      
+//        let urlString = mlBaseUrl + "/generate"
+//        guard let url = URL(string: urlString) else {
+//            let error = NSError(domain: "InvalidURLError", code: NSURLErrorCancelled, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+//            completion(nil, error)
+//            return
+//        }
+//        
+//        let headers: HTTPHeaders = [
+//            "Authorization": "Bearer \(mlAuthorization)"
+//        ]
+//        
+//        statusCallback?(.uploading)
+//        
+//        uploadRequest = AF.upload(multipartFormData: { multipartFormData in
+//            if let jsonData = try? Data(contentsOf: jsonURL) {
+//                multipartFormData.append(jsonData, withName: "json_data", fileName: "input.json", mimeType: "application/json")
+//            }
+//        }, to: url, method: .post, headers: headers)
+//        .uploadProgress { progress in
+//            print("Upload Progress: \(progress.fractionCompleted)")
+//            if progress.fractionCompleted == 1.0 {
+//                statusCallback?(.processing)
+//            }
+//        }
+//        .responseData { response in
+//            switch response.result {
+//            case .success(let data):
+//                print("comph2 data: \(String(data: data, encoding: .utf8))")
+//                statusCallback?(.completed)
+//                let tempZipURL = FileManager.default.temporaryDirectory.appendingPathComponent("comphy2_output.zip")
+//                do {
+//                    try data.write(to: tempZipURL)
+//                    completion(tempZipURL, nil)
+//                } catch {
+//                    completion(nil, error)
+//                }
+//                
+//            case .failure(let error):
+//                if error.isExplicitlyCancelledError {
+//                    print("Comphy2 Request was cancelled.")
+//                }
+//                completion(nil, error)
+//            }
+//        }
+//    }
+    
+    func generateComphy2(jsonURL: URL, completion: @escaping (URL?, Error?) -> Void) {
+        guard let jsonData = try? Data(contentsOf: jsonURL) else {
+            completion(nil, NSError(domain: "Comphy2APIErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "json data error"]))
+            return
+        }
+        let urlString = mlBaseUrl + "/generate"
+        
+        let url = URL(string: urlString)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.timeoutInterval = 400.0
+        request.setValue("Bearer \(mlAuthorization)", forHTTPHeaderField: "Authorization")
+        
+        let boundary = "Boundary-Comphy2-Upload"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"json_data\"; filename=\"input.json\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
+        body.append(jsonData)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.httpBody = body
+        
+        let session = URLSession.shared
+        task = session.dataTask(with: request) { [weak self] data, response, error in
+            guard let self else { return }
+            if let error = error {
+                // TODO: Delete the folder cretaed
+                completion(nil, error)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                // TODO: Delete the folder cretaed
+                completion(nil, NSError(domain: "Comphy2APIErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"]))
+                return
+            }
+            
+            guard httpResponse.statusCode == 200, let data = data else {
+                // TODO: Delete the folder cretaed
+                completion(nil, NSError(domain: "Comphy2APIErrorDomain", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Non-200 status code received"]))
+                return
+            }
+            
+            let tempZipURL = FileManager.default.temporaryDirectory.appendingPathComponent("comphy2_output.zip")
+            do {
+                try data.write(to: tempZipURL)
+                completion(tempZipURL, nil)
+            } catch {
+                completion(nil, error)
+            }
+        }
+        
+        task?.resume()
+    }
+    
+   
     
     func cancelRequests() {
         print("cancel Request")

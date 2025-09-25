@@ -15,7 +15,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JSON Information" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tpp-0o-qod">
-                    <rect key="frame" x="10" y="10" width="135.33333333333334" height="21"/>
+                    <rect key="frame" x="10" y="9.9999999999999982" width="135.33333333333334" height="20.333333333333329"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.89411764705882346" green="0.89803921568627454" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -35,42 +35,53 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fjb-0j-BCj">
-                    <rect key="frame" x="59" y="451" width="222" height="52"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="Fjb-0j-BCj" secondAttribute="height" multiplier="111:26" id="GTu-HD-7M5"/>
-                    </constraints>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" backgroundImage="try_now_bg">
-                        <attributedString key="attributedTitle">
-                            <fragment content="Share &amp; Copy">
-                                <attributes>
-                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <font key="NSFont" metaFont="system" size="14"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                    </state>
-                    <connections>
-                        <action selector="copyButtonPressed:" destination="4u6-WF-Gj8" eventType="touchUpInside" id="dnP-IT-qtk"/>
-                    </connections>
-                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vaz-Dp-dmf">
+                    <rect key="frame" x="10" y="456" width="320" height="52"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fjb-0j-BCj">
+                            <rect key="frame" x="0.0" y="0.0" width="155" height="52"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" backgroundImage="try_now_bg">
+                                <attributedString key="attributedTitle">
+                                    <fragment content="Share &amp; Copy">
+                                        <attributes>
+                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                            </state>
+                            <connections>
+                                <action selector="copyButtonPressed:" destination="4u6-WF-Gj8" eventType="touchUpInside" id="dnP-IT-qtk"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnF-3l-16j">
+                            <rect key="frame" x="165" y="0.0" width="155" height="52"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Generate" backgroundImage="try_now_bg"/>
+                            <connections>
+                                <action selector="generateButtonPressed:" destination="4u6-WF-Gj8" eventType="touchUpInside" id="vjt-iu-fBx"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="hTU-lS-WnI"/>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.85999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Tpp-0o-qod" firstAttribute="leading" secondItem="4u6-WF-Gj8" secondAttribute="leading" constant="10" id="08g-KW-gFO"/>
-                <constraint firstItem="Fjb-0j-BCj" firstAttribute="centerX" secondItem="4u6-WF-Gj8" secondAttribute="centerX" id="8yR-GU-Phk"/>
-                <constraint firstAttribute="bottom" secondItem="Fjb-0j-BCj" secondAttribute="bottom" constant="5" id="Cqi-vq-Uek"/>
                 <constraint firstItem="Tpp-0o-qod" firstAttribute="top" secondItem="4u6-WF-Gj8" secondAttribute="top" constant="10" id="ErE-pm-nNe"/>
+                <constraint firstItem="vaz-Dp-dmf" firstAttribute="centerX" secondItem="4u6-WF-Gj8" secondAttribute="centerX" id="Ocr-Ig-bpA"/>
+                <constraint firstItem="vaz-Dp-dmf" firstAttribute="leading" secondItem="4u6-WF-Gj8" secondAttribute="leading" constant="10" id="Qwn-2j-LHG"/>
                 <constraint firstItem="DYh-5M-vQ1" firstAttribute="top" secondItem="4u6-WF-Gj8" secondAttribute="top" constant="10" id="R44-Dp-klR"/>
                 <constraint firstItem="Tzf-7u-x1R" firstAttribute="leading" secondItem="hTU-lS-WnI" secondAttribute="leading" constant="10" id="bMM-dB-qKh"/>
+                <constraint firstAttribute="trailing" secondItem="vaz-Dp-dmf" secondAttribute="trailing" constant="10" id="bRV-nF-xJ6"/>
                 <constraint firstItem="hTU-lS-WnI" firstAttribute="trailing" secondItem="Tzf-7u-x1R" secondAttribute="trailing" constant="10" id="ie7-hH-6gT"/>
                 <constraint firstItem="Tzf-7u-x1R" firstAttribute="top" secondItem="DYh-5M-vQ1" secondAttribute="bottom" constant="10" id="lCv-r7-qlD"/>
+                <constraint firstItem="vaz-Dp-dmf" firstAttribute="top" secondItem="Tzf-7u-x1R" secondAttribute="bottom" constant="10" id="lq6-sI-gD4"/>
                 <constraint firstAttribute="trailing" secondItem="DYh-5M-vQ1" secondAttribute="trailing" constant="10" id="meL-jj-aVN"/>
-                <constraint firstItem="Tzf-7u-x1R" firstAttribute="bottom" secondItem="Fjb-0j-BCj" secondAttribute="top" constant="-5" id="s2r-Jm-cR2"/>
-                <constraint firstItem="Fjb-0j-BCj" firstAttribute="width" secondItem="Fjb-0j-BCj" secondAttribute="height" multiplier="111:26" id="z8z-fP-iRh"/>
+                <constraint firstAttribute="bottom" secondItem="vaz-Dp-dmf" secondAttribute="bottom" id="rxU-1h-JNB"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
