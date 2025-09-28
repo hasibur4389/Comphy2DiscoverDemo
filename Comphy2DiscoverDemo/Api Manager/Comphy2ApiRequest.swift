@@ -17,6 +17,8 @@ class Comphy2ApiRequest: NSObject {
     var mlAuthorization = Comphy2APIEnvironment.ml_Authorization
     var task: URLSessionDataTask?
     //var uploadRequest: UploadRequest?
+  
+   
     
     public func configureURLRequest(
             urlString: String,
@@ -339,43 +341,49 @@ class Comphy2ApiRequest: NSObject {
         task.resume()
     }
     
-    func fetchApiRequestModelFromJsonURL(from urlString: String, completion: @escaping (String?, Error?) -> Void) {
+    func fetchApiRequestModelFromJsonURL(from urlString: String,
+                                         completion: @escaping ([String: Any]?, String?, Error?) -> Void) {
         guard let url = URL(string: urlString) else {
             print("Invalid URL: \(urlString)")
             let error = NSError(domain: "URL", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to make URL"])
-            completion(nil, error)
+            completion(nil, nil, error)
             return
         }
 
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print("Network error: \(error)")
-               
-                completion(nil, error)
+                completion(nil, nil, error)
                 return
             }
 
             guard let data = data else {
                 print("No data received from: \(url)")
-                let error = NSError(domain: "Network", code: 0, userInfo: [NSLocalizedDescriptionKey: "Empty Data Recieved"])
-                completion(nil, error)
+                let error = NSError(domain: "Network", code: 0, userInfo: [NSLocalizedDescriptionKey: "Empty Data Received"])
+                completion(nil, nil, error)
                 return
             }
 
             do {
-                let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
-                
-                // Convert JSON object back to a formatted string
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
+                // Parse JSON into a dictionary
+                guard let dict = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+                    let error = NSError(domain: "JSON", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to cast JSON to dictionary"])
+                    completion(nil, nil, error)
+                    return
+                }
+
+                // Convert JSON dictionary back to pretty-printed string
+                let jsonData = try JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted])
                 let jsonString = String(data: jsonData, encoding: .utf8)
-                
-                completion(jsonString, nil)
+
+                completion(dict, jsonString, nil)
             } catch {
-                print("ecoding error: \(error)")
-                completion(nil, error)
+                print("Decoding error: \(error)")
+                completion(nil, nil, error)
             }
         }.resume()
     }
+
 //    
 //    func generateComphy2(jsonURL: URL,
 //                         statusCallback: ((NCAiImageUploadStatuss) -> Void)?,
@@ -427,42 +435,69 @@ class Comphy2ApiRequest: NSObject {
 //        }
 //    }
     
+    private func getRequestFor(data: Data) -> URLRequest {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        let paramName = "json_data"
+        
+        body += Data("--\(boundary)\r\n".utf8)
+        body += Data("Content-Disposition:form-data; name=\"\(paramName)\"".utf8)
+        body += Data("; filename=\"\("config.json")\"\r\n".utf8)
+        body += Data("Content-Type: \"content-type header\"\r\n".utf8)
+        body += Data("\r\n".utf8)
+        body += data
+        body += Data("\r\n".utf8)
+        body += Data("--\(boundary)--\r\n".utf8);
+        
+        let postData = body
+
+        let urlString = mlBaseUrl + "/generate"
+        let generateKey = "Bearer \(mlAuthorization)"
+        var request = URLRequest(url: URL(string: urlString)!,timeoutInterval: Double.infinity)
+        request.addValue(generateKey, forHTTPHeaderField: "Authorization")
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        request.httpMethod = "POST"
+        request.httpBody = postData
+
+        return request
+    }
+    
+    func urlForValidJSON() -> URL? {
+        return Bundle.main.url(forResource: "validJSON", withExtension: "json")
+    }
+    
     func generateComphy2(jsonURL: URL, completion: @escaping (URL?, Error?) -> Void) {
+       
+//        guard let bundleURL = urlForValidJSON() else {
+//            completion(nil, NSError(domain: "Comphy2APIErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "json url error"]))
+//            return
+//        }
+        
         guard let jsonData = try? Data(contentsOf: jsonURL) else {
             completion(nil, NSError(domain: "Comphy2APIErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "json data error"]))
             return
         }
-        let urlString = mlBaseUrl + "/generate"
         
-        let url = URL(string: urlString)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.timeoutInterval = 400.0
-        request.setValue("Bearer \(mlAuthorization)", forHTTPHeaderField: "Authorization")
         
-        let boundary = "Boundary-Comphy2-Upload"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        var body = Data()
-        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-        body.append("Content-Disposition: form-data; name=\"json_data\"; filename=\"input.json\"\r\n".data(using: .utf8)!)
-        body.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
-        body.append(jsonData)
-        body.append("\r\n".data(using: .utf8)!)
-        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        request.httpBody = body
+        let request = getRequestFor(data: jsonData)
         
         let session = URLSession.shared
         task = session.dataTask(with: request) { [weak self] data, response, error in
-            guard let self else { return }
+            if let data = data,
+               let responseString = String(data: data, encoding: .utf8) {
+                print("Data: \(responseString)")
+            } else {
+                print("No data or failed to decode as UTF-8")
+                }
             if let error = error {
                 // TODO: Delete the folder cretaed
+                print("data fetching error \(error)")
                 completion(nil, error)
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                // TODO: Delete the folder cretaed
                 completion(nil, NSError(domain: "Comphy2APIErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response"]))
                 return
             }

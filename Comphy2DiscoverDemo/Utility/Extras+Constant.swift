@@ -46,7 +46,7 @@ class Comphy2APIEnvironment: NSObject {
     static let base_AllData_URLString = "http://comphy2-api.interlinkapi.com/api/mobile"
     static let base_AllData_ApiKey = "dhfofh4564rfdl@fef@iK343G"
     // ML
-    static let base_ML_URLString = "http://103.196.86.56:15063"
+    static let base_ML_URLString = "http://comphy2v23-ml.interlinkapi.com"
     static let ml_Authorization = "kepHq8UbyuU82f4ILIVYDneJp6Fm3mQI"
     #else
     static let environment = "PRODUCTION Comphy2 Api Environment"
@@ -54,7 +54,7 @@ class Comphy2APIEnvironment: NSObject {
     static let base_AllData_URLString = "http://comphy2-api.interlinkapi.com/api/mobile"
     static let base_AllData_ApiKey = "dhfofh4564rfdl@fef@iK343G"
     // ML
-    static let base_ML_URLString = "http://103.196.86.56:15063"
+    static let base_ML_URLString = "http://comphy2v23-ml.interlinkapi.com"
     static let ml_Authorization = "kepHq8UbyuU82f4ILIVYDneJp6Fm3mQI"
     #endif
 }
@@ -175,6 +175,23 @@ extension UIViewController {
     func hideLoader() {
         DispatchQueue.main.async {
             SVProgressHUD.dismiss()
+            
         }
     }
+}
+
+
+enum FeatureType: String {
+    case tatto_design
+    case text_2_logo
+    case avatar_instantid_controlnet_scribble_xinsir
+    case p2p_instantid_sticker
+    case tatto_design_in_body
+    case p2p_sticker
+    case Pet
+    case face_to_sticker
+    case face_to_logo
+    case text_2_sticker
+    case t_shirt_design
+    case avatar_instantid_controlnet_openposeXL2
 }

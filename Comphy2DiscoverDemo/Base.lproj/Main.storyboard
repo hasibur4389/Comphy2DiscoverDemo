@@ -17,8 +17,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mnY-a8-fpF">
+                                <rect key="frame" x="0.0" y="103" width="393" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ims-EI-OQD">
+                                        <rect key="frame" x="178.66666666666663" y="1.6666666666666714" width="214.33333333333337" height="41"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="getDiscoversByTagName"/>
+                                        <connections>
+                                            <action selector="getDiscoverByTagNamePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="myO-E3-jkV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Ims-EI-OQD" firstAttribute="centerY" secondItem="mnY-a8-fpF" secondAttribute="centerY" id="DPN-zm-JfR"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ims-EI-OQD" secondAttribute="trailing" id="Sey-NL-mo6"/>
+                                    <constraint firstAttribute="height" constant="44" id="ztt-pF-Y7g"/>
+                                </constraints>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FCC-0w-7nQ">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <rect key="frame" x="0.0" y="147" width="393" height="671"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="6nt-8Z-blf"/>
@@ -29,14 +48,18 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="FCC-0w-7nQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="GM7-O0-s4Q"/>
+                            <constraint firstAttribute="trailing" secondItem="mnY-a8-fpF" secondAttribute="trailing" id="6F2-EH-Arh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FCC-0w-7nQ" secondAttribute="trailing" id="Jwe-pk-pmp"/>
+                            <constraint firstItem="mnY-a8-fpF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="S9n-dK-cFf"/>
+                            <constraint firstItem="FCC-0w-7nQ" firstAttribute="top" secondItem="mnY-a8-fpF" secondAttribute="bottom" id="Zkh-LU-Ww8"/>
+                            <constraint firstItem="mnY-a8-fpF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="hgP-ta-AwD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="FCC-0w-7nQ" secondAttribute="bottom" id="ly5-Bb-Rx1"/>
                             <constraint firstItem="FCC-0w-7nQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="teY-kQ-io8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Thc-tm-hLN"/>
                     <connections>
+                        <outlet property="navView" destination="mnY-a8-fpF" id="SNj-r7-5hu"/>
                         <outlet property="tableView" destination="FCC-0w-7nQ" id="Jos-h7-5pZ"/>
                     </connections>
                 </viewController>
@@ -47,7 +70,7 @@
         <!--Avatar Discover List View Controller-->
         <scene sceneID="VwQ-yT-6ug">
             <objects>
-                <viewController storyboardIdentifier="AIAvatarDiscoverListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gAX-2F-zf0" customClass="AIAvatarDiscoverListViewController" customModule="NoCrop" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AIAvatarDiscoverListViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gAX-2F-zf0" customClass="AIAvatarDiscoverListViewController" customModule="Comphy2DiscoverDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lna-Kw-mcv">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

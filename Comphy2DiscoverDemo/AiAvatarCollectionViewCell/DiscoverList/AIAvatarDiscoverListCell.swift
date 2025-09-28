@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import SDWebImage
+import SDWebImage
 
 class AIAvatarDiscoverListCell: UICollectionViewCell {
     static let identifier = "AIAvatarDiscoverListCell"
@@ -54,10 +54,10 @@ class AIAvatarDiscoverListCell: UICollectionViewCell {
             return
         }
         
-//        imageView.sd_setImage(
-//            with: url,
-//            placeholderImage: UIImage(named: "AiImagePlaceHolder"),
-//            options: [.continueInBackground, .retryFailed]
-//        )
+        imageView.sd_setImage(
+            with: url,
+            placeholderImage: UIImage(named: "AiImagePlaceHolder"),
+            options: [.continueInBackground, .retryFailed]
+        )
     }
 }

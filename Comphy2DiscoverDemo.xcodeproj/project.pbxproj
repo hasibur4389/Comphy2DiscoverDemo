@@ -32,6 +32,7 @@
 		B3D3D96B2E856D8B005BE253 /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D96A2E856D8B005BE253 /* ZipArchive */; };
 		B3D3D96F2E856F43005BE253 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D96E2E856F43005BE253 /* SDWebImage */; };
 		B3D3D9712E856F43005BE253 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B3D3D9702E856F43005BE253 /* SDWebImageMapKit */; };
+		B3F4BF3E2E89196F00953D22 /* validJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = B3F4BF3D2E89196F00953D22 /* validJSON.json */; };
 		BEA815448F076861EF3B4CA7 /* Pods_Comphy2DiscoverDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB1D169E75FBDBF7E1E0CFB /* Pods_Comphy2DiscoverDemo.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,7 @@
 		B3AA564B2E83BD6E0088D92E /* AIAvatarDiscoverCategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AIAvatarDiscoverCategoryCell.xib; sourceTree = "<group>"; };
 		B3AA56582E83E86C0088D92E /* JSONDisplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDisplayer.swift; sourceTree = "<group>"; };
 		B3AA565A2E83E87A0088D92E /* JSONDisplayer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = JSONDisplayer.xib; sourceTree = "<group>"; };
+		B3F4BF3D2E89196F00953D22 /* validJSON.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = validJSON.json; sourceTree = "<group>"; };
 		F6D69D56CDD1A7ED00A16EE2 /* Pods-Comphy2DiscoverDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Comphy2DiscoverDemo.release.xcconfig"; path = "Target Support Files/Pods-Comphy2DiscoverDemo/Pods-Comphy2DiscoverDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,6 +124,7 @@
 				B3AA562A2E83B3690088D92E /* SceneDelegate.swift */,
 				B3AA562B2E83B3690088D92E /* ViewController.swift */,
 				B3AA56452E83BBD20088D92E /* AIAvatarDiscoverListViewController.swift */,
+				B3F4BF3D2E89196F00953D22 /* validJSON.json */,
 			);
 			path = Comphy2DiscoverDemo;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3F4BF3E2E89196F00953D22 /* validJSON.json in Resources */,
 				B3AA56302E83B3690088D92E /* Assets.xcassets in Resources */,
 				B3AA56322E83B3690088D92E /* LaunchScreen.storyboard in Resources */,
 				B3AA56332E83B3690088D92E /* Main.storyboard in Resources */,
@@ -355,11 +359,11 @@
 				DEVELOPMENT_TEAM = QA5HCG2XW6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Comphy2DiscoverDemo/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow Photo permission to save";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -385,11 +389,11 @@
 				DEVELOPMENT_TEAM = QA5HCG2XW6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Comphy2DiscoverDemo/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Allow Photo permission to save";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

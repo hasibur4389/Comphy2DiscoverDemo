@@ -1,0 +1,22 @@
+{
+  "neg_prompt": "blurry, bad art, low quality, deformed, disfigured, ugly, photo, cg, 3d, watermark , signature, repeating letters, malformed letters, doubles, inaccuracy, duplicate, warped text, ,missing letters, monochrome",
+  "model_name": "aamXLAnimeMix_v10.safetensors",
+  "cfg": 5.5,
+  "prompt": "Cute chibi girl with big eyes, colorful dress, and holding a bouquet of flowersSticker, svg, solid color background, vector, best quality, masterpiece",
+  "seed": -1,
+  "loras": [
+    {
+      "weight": 0.7,
+      "name": "Sticker_StickersRedmond.safetensors"
+    }
+  ],
+  "num_of_images": 1,
+  "steps": 30,
+  "denoise": 1,
+  "sampler_name": "euler_ancestral",
+  "scheduler": "normal",
+  "will_segment": true,
+  "style_name": "Abstract",
+  "width": 1024,
+  "height": 1024
+}

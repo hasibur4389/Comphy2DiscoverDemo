@@ -25,6 +25,11 @@ class AIAvatarDiscoverListViewController: UIViewController {
     var navTitle: String = ""
     var selectedTagIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     var selectedDiscoverIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+   
+    let overlayView = UIView()
+    let comphy2APi = Comphy2ApiRequest()
+    var discoverDict: [String: Any]?
+    var discoverName: String?
     
     
     override func viewDidLoad() {
@@ -78,8 +83,11 @@ class AIAvatarDiscoverListViewController: UIViewController {
 
     // MARK: - Save Image to Photos
     func saveImageToPhotos(_ image: UIImage, completion: ((Bool, Error?) -> Void)? = nil) {
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        completion?(true, nil)
+        DispatchQueue.main.async {
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            completion?(true, nil)
+        }
+       
     }
     
     // MARK: - Share Image
@@ -132,18 +140,75 @@ class AIAvatarDiscoverListViewController: UIViewController {
         }
     }
     
-    func handleGenerate(jsonString: String, discoverName: String?){
+    // MARK: - Properties
+
+    func showLoaderWithCancel() {
+        guard let window = self.view else { return }
+
+        // Configure overlay
+        overlayView.frame = window.bounds
+        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        overlayView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+       
+
+        // Configure cancel button
+        let cancelButton = UIButton(type: .system)
+        cancelButton.backgroundColor = .systemBlue
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.tintColor = .white
+        cancelButton.layer.cornerRadius = 8
+        cancelButton.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        cancelButton.center = CGPoint(x: overlayView.bounds.midX, y: overlayView.bounds.midY + 50) // below label
+        cancelButton.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
+        cancelButton.addTarget(self, action: #selector(cancelHUD), for: .touchUpInside)
+        overlayView.addSubview(cancelButton)
+
+        // Show overlay
+        DispatchQueue.main.async {[weak self] in
+            guard let self else { return }
+            window.addSubview(self.overlayView)
+            showLoader(withMessage: "Generating...")
+        }
+    }
+
+    @objc func cancelHUD() {
+        // Remove overlay and cancel any task
+        DispatchQueue.main.async {[weak self] in
+            guard let self else { return }
+            SVProgressHUD.dismiss()
+            self.overlayView.removeFromSuperview()
+            comphy2APi.cancelRequests()
+        }
+    }
+    
+    func handleGenerate(jsonString: String, discoverName: String?) {
+        guard let discoverDict else { return }
+        self.discoverName = discoverName
+        if navTitle == FeatureType.tatto_design.rawValue || navTitle == FeatureType.tatto_design_in_body.rawValue || navTitle == FeatureType.t_shirt_design.rawValue || navTitle == FeatureType.text_2_logo.rawValue || navTitle == FeatureType.text_2_sticker .rawValue {
+            generateImage(jsonString: jsonString, discoverName: discoverName)
+        } else {
+            presentImagePicker()
+        }
+       
+    }
+    
+    func generateImage(jsonString: String, discoverName: String?) {
         guard let jsonData = jsonString.data(using: .utf8) else { return }
-        
+            
         if let name = discoverName {
             let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(name).json")
             
                 do {
                     try jsonData.write(to: tempURL)
-                    SVProgressHUD.setDefaultMaskType(.black)
-                    showLoader(withMessage: "Generating...")
-                    Comphy2ApiRequest().generateComphy2(jsonURL: tempURL){ [weak self] zipURL, error in
+                    //SVProgressHUD.setDefaultMaskType(.black)
+                    showLoaderWithCancel()
+                    comphy2APi.generateComphy2(jsonURL: tempURL){ [weak self] zipURL, error in
                         guard let self else { return }
+                        DispatchQueue.main.async {[weak self] in
+                            guard let self else { return }
+                            overlayView.removeFromSuperview()
+                        }
+                        
                         hideLoader()
                         if let error {
                             showAlert(title: "Error!", message: error.localizedDescription)
@@ -160,40 +225,47 @@ class AIAvatarDiscoverListViewController: UIViewController {
                             
                             let success = SSZipArchive.unzipFile(atPath: zipURL.path, toDestination: nameFolderURL.path)
                             if success {
-                                if let outputImageView = Bundle.main.loadNibNamed("OutputImageView", owner: nil, options: nil)?.first as? OutputImageView {
-                                    outputImageView.frame = self.view.frame
-                                    outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                                    
-                                    let image = UIImage(contentsOfFile: nameFolderURL.path)
-                                    outputImageView.image = image
-                                    
-                                    outputImageView.didPressSave = { [weak self] in
-                                        guard let self else { return }
-                                        if let image = outputImageView.image {
-                                            self.saveImageToPhotos(image) { success, error in
-                                                if success {
-                                                    self.showAlert(title: "Success!", message: "Image Saved")
-                                                } else {
-                                                    self.showAlert(title: "Failed!", message: "Image couldnt be saved")
-                                                    print("❌ Failed to save image: \(String(describing: error))")
+                                DispatchQueue.main.async { [weak self] in
+                                    guard let self = self else { return }
+                                    overlayView.removeFromSuperview()
+                                    if let outputImageView = Bundle.main.loadNibNamed("OutputImageView", owner: nil, options: nil)?.first as? OutputImageView {
+                                        outputImageView.frame = self.view.frame
+                                        outputImageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                                        
+                                        if let files = try? FileManager.default.contentsOfDirectory(at: nameFolderURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles]),
+                                           let firstImageURL = files.first(where: { $0.pathExtension.lowercased() == "png" || $0.pathExtension.lowercased() == "jpg" ||  $0.pathExtension.lowercased() == "jpeg"}) {
+                                            let image = UIImage(contentsOfFile: firstImageURL.path)
+                                            outputImageView.image = image
+                                        }
+                                        
+                                        outputImageView.didPressSave = { [weak self] in
+                                            guard let self else { return }
+                                            if let image = outputImageView.image {
+                                                self.saveImageToPhotos(image) { success, error in
+                                                    if success {
+                                                        self.showAlert(title: "Success!", message: "Image Saved")
+                                                    } else {
+                                                        self.showAlert(title: "Failed!", message: "Image couldnt be saved")
+                                                        print("❌ Failed to save image: \(String(describing: error))")
+                                                    }
                                                 }
+                                            }
+                                            
+                                        }
+                                        
+                                        outputImageView.didPressShareImage = { [weak self] in
+                                            guard let self else { return }
+                                            if let image = outputImageView.image {
+                                                self.shareImage(image)
                                             }
                                         }
                                         
-                                    }
-                                    
-                                    outputImageView.didPressShareImage = { [weak self] in
-                                        guard let self else { return }
-                                        if let image = outputImageView.image {
-                                            self.shareImage(image)
+                                        DispatchQueue.main.async {[weak self] in
+                                            guard let self else { return }
+                                            self.view.addSubview(outputImageView)
                                         }
+                                        
                                     }
-                                    
-                                    DispatchQueue.main.async {[weak self] in
-                                        guard let self else { return }
-                                        self.view.addSubview(outputImageView)
-                                    }
-                                   
                                 }
                                     
                             } else {
@@ -267,12 +339,13 @@ extension AIAvatarDiscoverListViewController: UICollectionViewDataSource, UIColl
                let jsonFileUrlString = discoverModels[indexPath.row].jsonFileUrl {
                 
                 showLoader(withMessage: "Loading Discover JSON...")
-                Comphy2ApiRequest().fetchApiRequestModelFromJsonURL(from: jsonFileUrlString) {[weak self] jsonString, error in
+                Comphy2ApiRequest().fetchApiRequestModelFromJsonURL(from: jsonFileUrlString) {[weak self] jsonDict, jsonString, error in
                     guard let self else { return }
                     hideLoader()
                     if let jsonString {
                         DispatchQueue.main.async { [weak self] in
                             guard let self else { return }
+                            self.discoverDict = jsonDict
                             if let displayer = Bundle.main.loadNibNamed("JSONDisplayer", owner: nil, options: nil)?.first as? JSONDisplayer {
                                 let safeInsets = self.view.safeAreaInsets
                                 let screenWidth = self.view.bounds.width
@@ -358,3 +431,46 @@ extension AIAvatarDiscoverListViewController: UICollectionViewDataSource, UIColl
         }
     }
 }
+
+
+
+extension AIAvatarDiscoverListViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    func presentImagePicker(isCamera: Bool = false) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = isCamera ? .camera : .photoLibrary
+        if isCamera {
+            imagePicker.cameraCaptureMode = .photo
+        } else {
+            imagePicker.mediaTypes = ["public.image"]
+        }
+        imagePicker.allowsEditing = false // or true if you want cropping
+        
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        if let pickedImage = info[.originalImage] as? UIImage {
+            discoverDict?["face_img"] = pickedImage.jpegData(compressionQuality: 1.0)?.base64EncodedString()
+            if let discoverDict,
+                   let jsonData = try? JSONSerialization.data(withJSONObject: discoverDict, options: []),
+                   let jsonString = String(data: jsonData, encoding: .utf8) {
+
+                    if let discoverName {
+                        generateImage(jsonString: jsonString, discoverName: discoverName)
+                    }
+                }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+}
+

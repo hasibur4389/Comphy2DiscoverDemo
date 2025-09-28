@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var allDataComphy2: AllDataModel?
+    
+    @IBOutlet weak var navView: UIView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +38,31 @@ class ViewController: UIViewController {
         }
     
     }
+    
+    @IBAction func getDiscoverByTagNamePressed(_ sender: UIButton) {
+        let secondAlert = UIAlertController(
+            title: "Input Required",
+            message: "Enter tagName",
+            preferredStyle: .alert
+        )
+        
+        secondAlert.addTextField { textField in
+            textField.placeholder = "Type something..."
+        }
+        
+        secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            print("User cancelled input")
+        }))
+        
+        secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            let userInput = secondAlert.textFields?.first?.text ?? ""
+            
+            //TODO: MAKE API call using the tag name and feature id
+        }))
+        
+        self.present(secondAlert, animated: true)
+    }
+    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
@@ -94,7 +122,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
      func callTagsDiscoverApi(_ featureID: String, _ indexPath: IndexPath) {
         showLoader(withMessage: "Loading Disocover Data...")
-        Comphy2ApiRequest().getAllDiscoverAndTagsByApplicationIDAndFeatureID(featureID: featureID) { [weak self] responseModel, error in
+         Comphy2ApiRequest().getAllDiscoverAndTagsByApplicationIDAndFeatureID(featureID: featureID) { [weak self] responseModel, error in
             guard let self else { return }
             hideLoader()
             if let error = error {
@@ -111,47 +139,48 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let aFeature = allDataComphy2?.features?[indexPath.row], let featureID = aFeature._id {
+            self.callTagsDiscoverApi(featureID, indexPath)
             //callTagsDiscoverApi(featureID, indexPath)
             // First Alert (Yes/No)
-            let firstAlert = UIAlertController(
-                title: "Confirm",
-                message: "Get discover(s) for a specific tag?",
-                preferredStyle: .alert
-            )
-            
-            // No action
-            firstAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [weak self] _ in
-                // Do something else when user taps No
-                print("User tapped No - doing something else")
-                self?.callTagsDiscoverApi(featureID, indexPath)
-            }))
-            
-            // Yes action → show second alert with input
-            firstAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                let secondAlert = UIAlertController(
-                    title: "Input Required",
-                    message: "Enter tagName",
-                    preferredStyle: .alert
-                )
-                
-                secondAlert.addTextField { textField in
-                    textField.placeholder = "Type something..."
-                }
-                
-                secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-                    print("User cancelled input")
-                }))
-                
-                secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                    let userInput = secondAlert.textFields?.first?.text ?? ""
-                    
-                    //TODO: MAKE API call using the tag name and feature id
-                }))
-                
-                self.present(secondAlert, animated: true)
-            }))
-            
-            self.present(firstAlert, animated: true)
+//            let firstAlert = UIAlertController(
+//                title: "Confirm",
+//                message: "Get discover(s) for a specific tag?",
+//                preferredStyle: .alert
+//            )
+//            
+//            // No action
+//            firstAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [weak self] _ in
+//                // Do something else when user taps No
+//                print("User tapped No - doing something else")
+//                self?.callTagsDiscoverApi(featureID, indexPath)
+//            }))
+//            
+//            // Yes action → show second alert with input
+//            firstAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+//                let secondAlert = UIAlertController(
+//                    title: "Input Required",
+//                    message: "Enter tagName",
+//                    preferredStyle: .alert
+//                )
+//                
+//                secondAlert.addTextField { textField in
+//                    textField.placeholder = "Type something..."
+//                }
+//                
+//                secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+//                    print("User cancelled input")
+//                }))
+//                
+//                secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+//                    let userInput = secondAlert.textFields?.first?.text ?? ""
+//                    
+//                    //TODO: MAKE API call using the tag name and feature id
+//                }))
+//                
+//                self.present(secondAlert, animated: true)
+//            }))
+//            
+//            self.present(firstAlert, animated: true)
         } else {
             print("Error: DidSelect Selected Feature information missing")
             DispatchQueue.main.async {
