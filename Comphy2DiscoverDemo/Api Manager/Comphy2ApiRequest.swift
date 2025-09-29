@@ -520,6 +520,47 @@ class Comphy2ApiRequest: NSObject {
         task?.resume()
     }
     
+    func getAllDiscoversByApplicationIDAndFeatureIDAndTagID(
+        featureID: String, tagID: String,
+        completion: @escaping (_ responseModel: [Comphy2Discover]?, _ error: Error?) -> Void
+    ) {
+        let appListUrl = allDatabaseUrl + "/app/\(applicationID)/feature/\(featureID)/tag/\(tagID)/discover"
+
+
+        guard let urlRequest = configureURLRequest(urlString: appListUrl, apiKey: self.apiKey, requestType: .GET, headerFieldName: "api-key") else {
+            print("COMPHY2: ##InvalidRequestError getAllDiscoverAndTagsByApplicationIDAndFeatureID")
+            completion(nil, NSError(domain: "InvalidRequest", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid request URL or headers"]))
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            if let error = error {
+                print("COMPHY2: ##Error getAllDiscoverAndTagsByApplicationIDAndFeatureID: \(error.localizedDescription)")
+                completion(nil, error)
+                return // ✅ This was missing
+            }
+
+            guard let data = data else {
+                let noDataError = NSError(domain: "NetworkError", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"])
+                print("COMPHY2: ##Error getAllDiscoverAndTagsByApplicationIDAndFeatureID: No data received")
+                completion(nil, noDataError)
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let responseModel = try decoder.decode([Comphy2Discover].self, from: data)
+                print("COMPHY2: ##Success getAllDiscoverAndTagsByApplicationIDAndFeatureID")
+                completion(responseModel, nil)
+            } catch {
+                print("COMPHY2: ##Decoding error: \(error.localizedDescription)")
+                completion(nil, error)
+            }
+        }
+
+        task.resume()
+    }
+    
    
     
     func cancelRequests() {

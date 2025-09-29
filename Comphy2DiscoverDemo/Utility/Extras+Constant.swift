@@ -44,6 +44,7 @@ class Comphy2APIEnvironment: NSObject {
     static let environment = "DEBUG Comphy2 Api Environment"
     // All Data
     static let base_AllData_URLString = "http://comphy2-api.interlinkapi.com/api/mobile"
+   
     static let base_AllData_ApiKey = "dhfofh4564rfdl@fef@iK343G"
     // ML
     static let base_ML_URLString = "http://comphy2v23-ml.interlinkapi.com"

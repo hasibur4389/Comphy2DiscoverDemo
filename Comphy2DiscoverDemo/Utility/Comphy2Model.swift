@@ -253,6 +253,11 @@ class Tag: NSObject, Codable {
         self.name = name
     }
     
+    init(_id: String?) {
+        self._id = _id
+        self.displayName = _id
+    }
+    
     func mapDiscoverModels(from discoverArr: [Comphy2Discover]) {
         guard let discovers = self.discovers else { return }
         let discoverDict = Dictionary(uniqueKeysWithValues: discoverArr.compactMap { ($0._id ?? "", $0) })
@@ -344,6 +349,13 @@ class TagsResponseModel: NSObject, Codable {
    var tags: [Tag]?
    
    override init() {}
+    
+    init(discoverArr: [Comphy2Discover]?, tagID: String?) {
+        self.discoverArr = discoverArr
+        let tag = Tag(_id: tagID)
+        tag.discoverModels = discoverArr
+        self.tags = [tag]
+    }
    
    enum CodingKeys: String, CodingKey {
        case tags

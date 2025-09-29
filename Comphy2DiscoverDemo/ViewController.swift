@@ -40,27 +40,70 @@ class ViewController: UIViewController {
     }
     
     @IBAction func getDiscoverByTagNamePressed(_ sender: UIButton) {
+        showInputAlert()
+    }
+    
+    func showInputAlert(fetureID: String? = nil) {
         let secondAlert = UIAlertController(
             title: "Input Required",
-            message: "Enter tagName",
+            message: "Enter required details (AppID, FeatureID, TagID)",
             preferredStyle: .alert
         )
-        
+
+        // appID field (preset value, but editable)
         secondAlert.addTextField { textField in
-            textField.placeholder = "Type something..."
+            textField.placeholder = "Enter appID (default nocrop)"
+            textField.text = "68778aa081d2f0010365558f" // preset value, user can change
         }
-        
-        secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            print("User cancelled input")
-        }))
-        
-        secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-            let userInput = secondAlert.textFields?.first?.text ?? ""
+
+        // featureID field
+        secondAlert.addTextField { textField in
+            textField.placeholder = "Enter featureID"
+            if fetureID != nil {
+                textField.text = fetureID
+            } else {
+                textField.text = ""
+            }
+        }
+
+        // tagID field
+        secondAlert.addTextField { textField in
+            textField.placeholder = "Enter tagID"
+        }
+
+        // Add actions
+        secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            guard let self else { return }
+           
+            let appID = secondAlert.textFields?[0].text ?? ""
+            let featureID = secondAlert.textFields?[1].text ?? ""
+            let tagID = secondAlert.textFields?[2].text ?? ""
+            print("appID: \(appID), featureID: \(featureID), tagID: \(tagID)")
+            showLoader(withMessage: "Fetching Discover...")
+            Comphy2ApiRequest().getAllDiscoversByApplicationIDAndFeatureIDAndTagID(featureID: featureID, tagID: tagID) {[ weak self] responseModel, error in
+                guard let self else { return }
+                hideLoader()
+                if let error {
+                    showAlert(title: "Error!", message: error.localizedDescription)
+                } else {
+                    let tagModel = TagsResponseModel(discoverArr: responseModel, tagID: tagID)
+                    DispatchQueue.main.async {
+                        if let discoverListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AIAvatarDiscoverListViewController") as? AIAvatarDiscoverListViewController {
+                            
+                            discoverListVC.tagsDiscoverModel = tagModel
+                            self.navigationController?.pushViewController(discoverListVC, animated: true)
+                            
+                        }
+                    }
+                }
+                
+            }
             
-            //TODO: MAKE API call using the tag name and feature id
         }))
-        
-        self.present(secondAlert, animated: true)
+
+        // Present alert
+        present(secondAlert, animated: true, completion: nil)
     }
     
 }
@@ -139,48 +182,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let aFeature = allDataComphy2?.features?[indexPath.row], let featureID = aFeature._id {
-            self.callTagsDiscoverApi(featureID, indexPath)
             //callTagsDiscoverApi(featureID, indexPath)
             // First Alert (Yes/No)
-//            let firstAlert = UIAlertController(
-//                title: "Confirm",
-//                message: "Get discover(s) for a specific tag?",
-//                preferredStyle: .alert
-//            )
+            let firstAlert = UIAlertController(
+                title: "Confirm",
+                message: "Get discover(s) for a specific tag?",
+                preferredStyle: .alert
+            )
 //            
 //            // No action
-//            firstAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [weak self] _ in
-//                // Do something else when user taps No
-//                print("User tapped No - doing something else")
-//                self?.callTagsDiscoverApi(featureID, indexPath)
-//            }))
+            firstAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { [weak self] _ in
+                // Do something else when user taps No
+                print("User tapped No - doing something else")
+                self?.callTagsDiscoverApi(featureID, indexPath)
+            }))
 //            
 //            // Yes action → show second alert with input
-//            firstAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
-//                let secondAlert = UIAlertController(
-//                    title: "Input Required",
-//                    message: "Enter tagName",
-//                    preferredStyle: .alert
-//                )
-//                
-//                secondAlert.addTextField { textField in
-//                    textField.placeholder = "Type something..."
-//                }
-//                
-//                secondAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-//                    print("User cancelled input")
-//                }))
-//                
-//                secondAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-//                    let userInput = secondAlert.textFields?.first?.text ?? ""
-//                    
-//                    //TODO: MAKE API call using the tag name and feature id
-//                }))
-//                
-//                self.present(secondAlert, animated: true)
-//            }))
+            firstAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { [weak self] _ in
+                guard let self else { return }
+                showInputAlert(fetureID: featureID)
+            }))
 //            
-//            self.present(firstAlert, animated: true)
+            self.present(firstAlert, animated: true)
         } else {
             print("Error: DidSelect Selected Feature information missing")
             DispatchQueue.main.async {
